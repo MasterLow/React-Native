@@ -1,2 +1,1 @@
-# React-Native
-移动react
+1，路由
