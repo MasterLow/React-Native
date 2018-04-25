@@ -13,8 +13,8 @@ import {
     });
   render() {
     return (
-        <View style={{}}>
-                <Text style={{}}>带参数 跳转至Ocean页面</Text>
+        <View style={{flex:1,backgroundColor:'#45AEF0'}}>
+                <Text style={{color:'#fff'}}>带参数 跳转至Ocean页面</Text>
         </View>
     );
   }

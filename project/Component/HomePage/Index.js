@@ -8,6 +8,31 @@ import {
     TouchableOpacity,
 } from 'react-native';
  class Index extends Component {
+    constructor(props){
+      super(props)
+      this.state = {
+        toLocaleString:'别人笑你太疯癫',
+
+      }
+      }		 
+      
+      componentDidMount() {
+        this.timer = setInterval(()=>{
+
+            this.refreshTime();
+
+          },1000,);
+    }
+     componentWillUnmount() {
+        clearInterval(this.timer);
+    }
+    refreshTime = (e) => {
+        
+        this.setState({
+            toLocaleString:new Date().toLocaleString()
+        })
+        
+      }
          //设置顶部导航栏的内容
     static navigationOptions = ({navigation, screenProps}) => ({
         header: null,
@@ -22,7 +47,7 @@ import {
                     style={{width:80,height:80}}/>
             </View>
             <View style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'center'}}>
-                <Text style={{color:'#fff'}}>时间：</Text>
+                <Text style={{color:'#fff',fontSize:18}}>{this.state.toLocaleString}</Text>
             </View>
         </View>
     );

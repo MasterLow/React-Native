@@ -99,6 +99,6 @@ export default HomePage = TabNavigator({
         },
         iconStyle: {//图标的样式
             marginBottom: 5,
-        }
+        },
     },
 });

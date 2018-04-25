@@ -13,8 +13,8 @@ import {
     });
   render() {
     return (
-        <View style={{}}>
-                <Text style={{}}>带参数 跳转至Classify页面</Text>
+        <View style={{flex:1,backgroundColor:'#FF5057'}}>
+                <Text style={{color:'#fff'}}>带参数 跳转至Classify页面</Text>
         </View>
     );
   }
