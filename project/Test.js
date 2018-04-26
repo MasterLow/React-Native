@@ -3,8 +3,16 @@ import React, { Component } from 'react';
 import { Text,View,ScrollView  } from 'react-native';
 import { data } from './Component/StaticContent/StaticContent';
 import StepsA from './Component/Steps/Steps_step';
+import { Toast  } from 'antd-mobile';
 class Test extends Component {
-
+      
+  componentDidMount() {
+    
+    
+}
+ componentWillUnmount() {
+   
+}
     //设置顶部导航栏的内容
     static navigationOptions = ({navigation, screenProps}) => ({
       header: null,

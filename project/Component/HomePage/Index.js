@@ -7,6 +7,7 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
+import { Toast  } from 'antd-mobile';
  class Index extends Component {
     constructor(props){
       super(props)
@@ -17,6 +18,8 @@ import {
       }		 
       
       componentDidMount() {
+        Toast.info(JSON.stringify(this.props.navigation.state.params), 10, null, false);
+        
         this.timer = setInterval(()=>{
 
             this.refreshTime();
