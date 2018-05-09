@@ -5,6 +5,7 @@ import { Text,View,ScrollView  } from 'react-native';
 
 import Test from '../../Test';
 import HomePage from '../HomePage/HomePage';
+import HeadTitle from '../HeadTitle/HeadTitle';
 
 
 export default Router = StackNavigator({
@@ -14,6 +15,9 @@ export default Router = StackNavigator({
     },
     HomePage: {
         screen: HomePage,
+    },
+    HeadTitle: {
+        screen: HeadTitle,
     },
     
 });
