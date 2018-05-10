@@ -5,8 +5,8 @@ export const data = {
             description: '实现路由跳转，传参',
             url:'HomePage',
           },{
-            title: '路由2',
-            description: '页面跳转',
+            title: 'Title居中',
+            description: '标题栏，居中；左右添加组件；点击方法',
             url:'HeadTitle',
           },{
             title: '路由3',

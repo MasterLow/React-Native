@@ -7,7 +7,7 @@ import { Toast  } from 'antd-mobile';
 class Test extends Component {
       
   componentDidMount() {
-    
+    //Toast.info('返回是否启动', 2, null, false);
     
 }
  componentWillUnmount() {

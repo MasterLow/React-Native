@@ -21,7 +21,8 @@ import { Toast,Icon  } from 'antd-mobile';
             headerTitle:'title居中',
             //headerBackTitle:null,//返回箭头后面的文字
             headerTintColor:screenProps.color,   
-            headerRight:(<View style={{height: 44,width: 55,alignItems:'flex-end',justifyContent: 'center',paddingRight:15} }><TouchableOpacity onPress={navigation.state.params?navigation.state.params.navigatePress:null}><Icon type="ellipsis" size="sm" color={screenProps.color} /></TouchableOpacity></View>),     
+            // headerLeft:(<View style={{height: 44,width: 55,alignItems:'flex-start',justifyContent: 'center',paddingLeft:15} }><TouchableOpacity onPress={navigation.state.params?navigation.state.params.LeftPress:null}><Icon type="ellipsis" color={screenProps.color} /></TouchableOpacity></View>),
+            headerRight:(<View style={{height: 44,width: 55,alignItems:'flex-end',justifyContent: 'center',paddingRight:15} }><TouchableOpacity onPress={navigation.state.params?navigation.state.params.RightPress:null}><Icon type="ellipsis" color={screenProps.color} /></TouchableOpacity></View>),     
             //headerLeft:null,     
             headerTitleStyle:{
                 flex: 1,
@@ -34,29 +35,34 @@ import { Toast,Icon  } from 'antd-mobile';
     componentDidMount() {
         
         this.props.navigation.setParams({
-            navigatePress:this.navigatePress
+            // LeftPress:this.LeftPress,
+            RightPress:this.RightPress
         })
     }
     
     componentWillUnmount() {
         
     }
-    navigatePress = () => {
-        Toast.info('Toast without mask !!!', 2, null, false);
+    // LeftPress = () => {
+    //     Toast.info('左上角', 2, null, false);
+    //     this.props.navigation.goBack();
+    // }
+    RightPress = () => {
+        Toast.info('右上角', 2, null, false);
         console.log(this.props.navigation);
     }
   render() {
     return (
-        <ScrollView style={{flex:1,padding:20}}>
-                <Text style={{padding:20,borderWidth:1,borderColor:'#0f8cf0',borderStyle:'solid',borderRadius:5}}>1.如果只有标题,设置headerLeft:null,headerRight:null,{"headerTitleStyle:{flex: 1,textAlign: 'center'},"}</Text>
-                <Text style={{padding:20,borderWidth:1,borderColor:'red',borderStyle:'solid',borderRadius:5,marginTop:20}}>2.如果标题栏左侧还有返回按钮,发现标题偏右依然不居中,则简单的处理方式是:
+        <ScrollView style={{flex:1}}>
+                <Text style={{padding:20,borderWidth:1,borderColor:'#0f8cf0',borderStyle:'solid',borderRadius:5,margin:20}}>1.如果只有标题,设置headerLeft:null,headerRight:null,{"headerTitleStyle:{flex: 1,textAlign: 'center'},"}</Text>
+                <Text style={{padding:20,borderWidth:1,borderColor:'red',borderStyle:'solid',borderRadius:5,margin:20}}>2.如果标题栏左侧还有返回按钮,发现标题偏右依然不居中,则简单的处理方式是:
                                            在右边 再添加一个等宽高的空view:{'\n'}如下:{'\n'}
 
-                                           {" headerRight: (<View style={{height: 44,width: 55,alignItems:'flex-end',justifyContent: 'center',paddingRight:15} }/>)"}
+                                           {"headerRight: (<View style={{height: 44,width: 55,alignItems:'flex-end',justifyContent: 'center',paddingRight:15} }/>)"}
                                            {'\n'}
                                            {"headerTitleStyle:{flex: 1,textAlign: 'center'},"}
                 </Text>
-                <Text style={{padding:20,borderWidth:1,borderColor:'#0f8cf0',borderStyle:'solid',borderRadius:5,marginTop:20}}>3.在static中使用this方法{'\n'}
+                <Text style={{padding:20,borderWidth:1,borderColor:'gray',borderStyle:'solid',borderRadius:5,margin:20}}>3.在static中使用this方法{'\n'}
                                             首先需要在componentDidMount(){}中动态的添加点击事件{'\n'}
                                             属性给params{'\n'}
                                             {'componentDidMount(){this.props.navigation.setParams({'}{'\n'}

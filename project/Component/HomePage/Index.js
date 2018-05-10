@@ -18,7 +18,7 @@ import { Toast  } from 'antd-mobile';
       }		 
       
       componentDidMount() {
-        Toast.info(JSON.stringify(this.props.navigation.state.params), 10, null, false);
+       // Toast.info(JSON.stringify(this.props.navigation.state.params), 2, null, false);
         
         this.timer = setInterval(()=>{
 
