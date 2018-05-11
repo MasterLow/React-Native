@@ -5,4 +5,4 @@
 
                 npm install --save react-navigation
 
-                npm install --save redux-thunk
+                npm i --save redux-logger
