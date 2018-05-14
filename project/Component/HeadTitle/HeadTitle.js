@@ -7,6 +7,8 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { TEXTLICK } from '../Actions';
 import { Toast,Icon  } from 'antd-mobile';
  class HeadTitle extends Component {     
     constructor(props){
@@ -51,6 +53,9 @@ import { Toast,Icon  } from 'antd-mobile';
         Toast.info('右上角', 2, null, false);
         console.log(this.props.navigation);
     }
+    TextClick = () => {
+        this.props.dispatch(TEXTLICK());
+      }
   render() {
     return (
         <ScrollView style={{flex:1}}>
@@ -84,8 +89,16 @@ import { Toast,Icon  } from 'antd-mobile';
                                             {")"}{'\n'}
                                             {"});"}
                  </Text>
+                        <TouchableOpacity onPress={this.TextClick}>
+                <Text style={{padding:20,borderWidth:1,borderColor:'#0f8cf0',borderStyle:'solid',borderRadius:5,margin:20}}>
+                                 {this.props.counter.count}            redux点击加 1 (https://segmentfault.com/a/1190000008741380)
+                </Text>
+                        </TouchableOpacity>
       </ScrollView >
     );
   }
 }
-export default HeadTitle;
+const mapStateToProps = state => ({
+    counter: state.counter
+})
+export default connect(mapStateToProps)(HeadTitle);

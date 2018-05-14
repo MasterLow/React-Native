@@ -6,12 +6,12 @@ export const data = {
             url:'HomePage',
           },{
             title: 'Title居中',
-            description: '标题栏，居中；左右添加组件；点击方法',
+            description: '标题栏，居中；左右添加组件；点击方法，redux',
             url:'HeadTitle',
           },{
-            title: '路由3',
-            description: '页面跳转',
-            url:'center',
+            title: 'ajax,fetchRequest',
+            description: '网络请求',
+            url:'Network',
           },],
     };
 //主题

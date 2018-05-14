@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
 import { Text,View,ScrollView,TouchableOpacity  } from 'react-native';
+import { connect } from 'react-redux';
 import { Toast  } from 'antd-mobile';
 
 function stepsClick() {
@@ -56,4 +57,7 @@ class StepsA extends Component {
     );
   }
 }
-export default StepsA;
+const mapStateToProps = state => ({
+    counter: state.counter
+})
+export default connect(mapStateToProps)(StepsA);

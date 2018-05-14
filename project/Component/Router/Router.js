@@ -4,6 +4,7 @@ import { StackNavigator } from 'react-navigation';
 import { Text,View,ScrollView  } from 'react-native';
 
 import Test from '../../Test';
+import Network from '../../Network';
 import HomePage from '../HomePage/HomePage';
 import HeadTitle from '../HeadTitle/HeadTitle';
 
@@ -18,6 +19,9 @@ export default Router = StackNavigator({
     },
     HeadTitle: {
         screen: HeadTitle,
+    },
+    Network: {
+        screen: Network,
     },
     
 });
