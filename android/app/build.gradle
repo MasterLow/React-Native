@@ -98,7 +98,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.my_react_native"
+        applicationId "www.react_native.com"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1

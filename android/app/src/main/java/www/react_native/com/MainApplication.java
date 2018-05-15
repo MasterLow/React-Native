@@ -1,4 +1,4 @@
-package com.my_react_native;
+package www.react_native.com;
 
 import android.app.Application;
 
