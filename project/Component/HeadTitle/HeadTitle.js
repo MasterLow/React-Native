@@ -6,6 +6,7 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
+    NativeModules,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { TEXTLICK } from '../Actions';
@@ -40,6 +41,7 @@ import { Toast,Icon  } from 'antd-mobile';
             // LeftPress:this.LeftPress,
             RightPress:this.RightPress
         })
+        
     }
     
     componentWillUnmount() {
@@ -55,7 +57,15 @@ import { Toast,Icon  } from 'antd-mobile';
     }
     TextClick = () => {
         this.props.dispatch(TEXTLICK());
-      }
+    }
+    PromiseCallback = () => {
+        NativeModules.ReactNativeModule.PromiseCallback('213123','参数').then((ret)=>{
+            
+            Toast.info(ret, 5, null, false);
+        },(code,message)=>{
+            Toast.info(message, 5, null, false);
+        })
+    }
   render() {
     return (
         <ScrollView style={{flex:1}}>
@@ -91,7 +101,12 @@ import { Toast,Icon  } from 'antd-mobile';
                  </Text>
                         <TouchableOpacity onPress={this.TextClick}>
                 <Text style={{padding:20,borderWidth:1,borderColor:'#0f8cf0',borderStyle:'solid',borderRadius:5,margin:20}}>
-                                 {this.props.counter.count}            redux点击加 1 (https://segmentfault.com/a/1190000008741380)
+                                 {this.props.counter.count}.            redux点击加 1 (https://segmentfault.com/a/1190000008741380)
+                </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this.PromiseCallback}>
+                <Text style={{padding:20,borderWidth:1,borderColor:'red',borderStyle:'solid',borderRadius:5,margin:20}}>
+                                 6.交互Callback  (https://segmentfault.com/a/1190000004508328)
                 </Text>
                         </TouchableOpacity>
       </ScrollView >

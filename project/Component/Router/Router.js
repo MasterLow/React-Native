@@ -7,6 +7,7 @@ import Test from '../../Test';
 import Network from '../../Network';
 import HomePage from '../HomePage/HomePage';
 import HeadTitle from '../HeadTitle/HeadTitle';
+import Webview from '../Webview';
 
 
 export default Router = StackNavigator({
@@ -22,6 +23,9 @@ export default Router = StackNavigator({
     },
     Network: {
         screen: Network,
+    },
+    Webview: {
+        screen: Webview,
     },
     
 });

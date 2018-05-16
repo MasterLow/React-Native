@@ -1,14 +1,15 @@
 
 import React, { Component } from 'react';
-import { Text,View,ScrollView  } from 'react-native';
+import { Text,View,ScrollView,NativeModules  } from 'react-native';
 import { data } from './Component/StaticContent/StaticContent';
 import StepsA from './Component/Steps/Steps_step';
 import { Toast  } from 'antd-mobile';
 class Test extends Component {
       
   componentDidMount() {
-    //Toast.info('返回是否启动', 2, null, false);
-    
+    NativeModules.ReactNativeModule.MainActivityView('213123','参数',(ret)=>{
+    //    Toast.info(ret, 1, null, false);
+      });
 }
  componentWillUnmount() {
    
