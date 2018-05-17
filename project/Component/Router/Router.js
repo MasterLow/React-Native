@@ -5,6 +5,7 @@ import { Text,View,ScrollView  } from 'react-native';
 
 import Test from '../../Test';
 import Network from '../../Network';
+import Login from '../../Login';
 import HomePage from '../HomePage/HomePage';
 import HeadTitle from '../HeadTitle/HeadTitle';
 import Webview from '../Webview';
@@ -26,6 +27,9 @@ export default Router = StackNavigator({
     },
     Webview: {
         screen: Webview,
+    },
+    Login: {
+        screen: Login,
     },
     
 });

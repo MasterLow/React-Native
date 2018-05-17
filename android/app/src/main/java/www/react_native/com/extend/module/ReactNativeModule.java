@@ -22,6 +22,10 @@ public class ReactNativeModule  extends ReactContextBaseJavaModule {
         super(reactContext);
 
         mContext = reactContext;
+
+
+        //给上下文对象赋值，react-native监听原生事件用，由于版本问题，该函数中的参数reactContext有可能为null，此时会报NullPointException的错误。所以我们需要手动给reactContext赋值（未理解）
+        sendEvent.myContext=reactContext;
     }
 
     @Override
@@ -45,6 +49,18 @@ public class ReactNativeModule  extends ReactContextBaseJavaModule {
     public void PromiseCallback(String data1,String data2,Promise promise) {
         try {
             System.out.println("打印："+data1+data2);
+            promise.resolve("Result"); //value 只适合传数组
+        } catch (Exception e) {
+            e.printStackTrace();
+            promise.reject("0", "不等");
+        }
+    }
+
+    @ReactMethod
+    public void SendEventCallback(String data1,String data2,Promise promise) {
+        try {
+            //调用Test类中的原生方法。
+            new sendEvent().fun(data1,data2);
             promise.resolve("Result"); //value 只适合传数组
         } catch (Exception e) {
             e.printStackTrace();

@@ -7,6 +7,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     NativeModules,
+    DeviceEventEmitter,  
 } from 'react-native';
 import { connect } from 'react-redux';
 import { TEXTLICK } from '../Actions';
@@ -41,11 +42,24 @@ import { Toast,Icon  } from 'antd-mobile';
             // LeftPress:this.LeftPress,
             RightPress:this.RightPress
         })
+
+
+        //监听事件名为EventName的事件  
+        DeviceEventEmitter.addListener('SendEventCallback', (e)=> {    
+                           
+        Toast.info(JSON.stringify(e), 2, null, false);
+
+        });   
         
     }
     
     componentWillUnmount() {
-        
+        //注销 监听事件名为EventName的事件  
+        DeviceEventEmitter.removeListener('SendEventCallback', (e)=> {    
+                           
+            Toast.info(JSON.stringify(e), 2, null, false);
+    
+            });
     }
     // LeftPress = () => {
     //     Toast.info('左上角', 2, null, false);
@@ -62,6 +76,14 @@ import { Toast,Icon  } from 'antd-mobile';
         NativeModules.ReactNativeModule.PromiseCallback('213123','参数').then((ret)=>{
             
             Toast.info(ret, 5, null, false);
+        },(code,message)=>{
+            Toast.info(message, 5, null, false);
+        })
+    }
+    sendEvent = () => {
+        NativeModules.ReactNativeModule.SendEventCallback('SendEventCallback','发送的参数').then((ret)=>{
+            
+           // Toast.info(ret, 5, null, false);
         },(code,message)=>{
             Toast.info(message, 5, null, false);
         })
@@ -107,6 +129,11 @@ import { Toast,Icon  } from 'antd-mobile';
                         <TouchableOpacity onPress={this.PromiseCallback}>
                 <Text style={{padding:20,borderWidth:1,borderColor:'red',borderStyle:'solid',borderRadius:5,margin:20}}>
                                  6.交互Callback  (https://segmentfault.com/a/1190000004508328)
+                </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this.sendEvent}>
+                <Text style={{padding:20,borderWidth:1,borderColor:'gray',borderStyle:'solid',borderRadius:5,margin:20}}>
+                                 7.交互 rn监听原生，可用于推送  (https://www.jianshu.com/p/b9a7dbe9b336)第三种,注销方法DeviceEventEmitter.removeListener('onScanningResult',this.onScanningResult)，详细 (https://blog.csdn.net/qq_25827845/article/details/52963594)
                 </Text>
                         </TouchableOpacity>
       </ScrollView >

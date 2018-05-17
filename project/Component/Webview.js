@@ -13,14 +13,14 @@ import {
 import { connect } from 'react-redux';
 import { TEXTLICK } from './Actions';
 import { Toast,Icon  } from 'antd-mobile';
-const html = '<!DOCTYPE html><html><body><h1>This is a heading!</body></html>';  
+const html = '<!DOCTYPE html><head><meta  charset=UTF-8"></head><html><body><h1>这是一个html!</body></html>';  
  class Webview extends Component {     
     constructor(props){
       super(props)
       this.state = {
-          
-
+        webViewData: 0
       }
+      this.data = 0;
       }	 
          //设置顶部导航栏的内容
     static navigationOptions = ({navigation, screenProps}) => ({
@@ -69,19 +69,42 @@ const html = '<!DOCTYPE html><html><body><h1>This is a heading!</body></html>';
     onLoadStart = () => {
         //Toast.info('onLoadStart', 2, null, false);
     }
-    renderError = () => {
+    renderError(e){
         Toast.info('renderError', 2, null, false);
     }
+    _onNavigationStateChange = (navState) => {
+        // Toast.info(JSON.stringify(navState), 10, null, false);
+        this.setState({
+            backButtonEnabled: navState.canGoBack,
+            forwardButtonEnabled: navState.canGoForward,
+            url: navState.url,
+            status: navState.title,
+            loading: navState.loading,
+        });
+    }
+    sendMessage = (e) => {
+        this.refs.webview.postMessage(++this.data);
+    }
+    handleMessage(e) {
+        this.setState({webViewData: e.nativeEvent.data});
+    }
+
   render() {
     return (     
         <View style={{flex:1,}}>
                 <WebView 
-                    style={{flex:1}} 
-                    source={{uri: 'http://www.qqzi.com'}}
+                    style={{flex:1,}} 
+                    ref={'webview'}
+                    // source={require('../html/react-html.html')}
+                    // source={{html: html, baseUrl: ''}}  // baseUrl: ''中文乱码解决  
+                    //注意：uri
+                    source={{uri: 'http://www.baidu.com'}}
                     onLoad={this.onLoad}
                     onLoadEnd={this.onLoadEnd}
                     onLoadStart={this.onLoadStart}
-                    renderError={this.renderError}  //目前无反应
+                    renderError={(e) => {
+                        this.renderError(e)
+                    }}  //目前无反应
                     startInLoadingState={true}
                     renderLoading={() => {
                         return  <ProgressBarAndroid  
@@ -89,12 +112,21 @@ const html = '<!DOCTYPE html><html><body><h1>This is a heading!</body></html>';
                             style={{marginTop:180}}
                             />  
                     }}
+                    onNavigationStateChange={this._onNavigationStateChange}
+                    onMessage={(e) => {         //只适合这样的写法
+                        this.handleMessage(e)
+                    }}
+
                 >
-                    {/* source={require('./helloworld.html')} */}
-                    {/* {source={{html: html}}  } */}
-                    {/* 注意：uri */}
                     
                 </WebView>
+                <View style={{flex:1,borderWidth:1,borderColor:'#0f8cf0',borderStyle:'solid',borderRadius:5,margin:20,display:'flex',alignItems:'center'}}>
+                        <Text style={{padding:20}}>这是react-native页面</Text>
+                        <Text style={{padding:20}}>来自webview的数据 : </Text><Text style={{color:'blue'}}>{this.state.webViewData}</Text>
+                        <TouchableOpacity onPress={this.sendMessage}>
+                                <Text style={{width:200,lineHeight:50,textAlign:'center',color:'white',backgroundColor:'#0f8cf0'}}>发送数据到WebView</Text>
+                        </TouchableOpacity>
+                </View>
         </View>
     );
   }

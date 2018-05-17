@@ -22,7 +22,7 @@ export default HomePage = TabNavigator({
         navigationOptions: {
             tabBarLabel: '主页',
             tabBarIcon: ({tintColor}) => (
-                <Icon type="ellipsis" size="sm" color= {tintColor} />
+                <Icon type="&#xe673;" size="sm" color= {tintColor} />
                 // <Image
                 //     source={require('')}
                 //     style={[{height: 24, width: 24}, {tintColor: tintColor}]}/>
@@ -34,7 +34,7 @@ export default HomePage = TabNavigator({
         navigationOptions: {
             tabBarLabel: '海洋',
             tabBarIcon: ({tintColor}) => (
-                <Icon type="check-circle" size="sm" color= {tintColor} />
+                <Icon type="&#xe66e;" size="sm" color= {tintColor} />
                 // <Image
                 //     source={require('')}
                 //     style={[{height: 24, width: 24}, {tintColor: tintColor}]}/>
@@ -46,7 +46,7 @@ export default HomePage = TabNavigator({
         navigationOptions: {
             tabBarLabel: '类别',
             tabBarIcon: ({tintColor}) => (
-                <Icon type="ellipsis" size="sm" color= {tintColor} />
+                <Icon type="&#xe682;" size="sm" color= {tintColor} />
                 // <Image
                 //     source={require('')}
                 //     style={[{height: 24, width: 24}, {tintColor: tintColor}]}/>
@@ -58,7 +58,7 @@ export default HomePage = TabNavigator({
         navigationOptions: {
             tabBarLabel: '个人',
             tabBarIcon: ({tintColor}) => (
-                <Icon type="check-circle" size="sm" color= {tintColor} />
+                <Icon type="&#xe688;" size="sm" color= {tintColor} />
                 // <Image
                 //     source={require('')}
                 //     style={[{height: 24, width: 24}, {tintColor: tintColor}]}/>

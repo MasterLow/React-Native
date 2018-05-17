@@ -6,7 +6,7 @@ export const data = {
             url:'HomePage',
           },{
             title: 'Title居中',
-            description: '标题栏，居中；左右添加组件；点击方法，redux响应更新',
+            description: '标题栏，居中；左右添加组件；点击方法，redux响应更新，rn监听原生',
             url:'HeadTitle',
           },{
             title: 'ajax,fetchRequest',
@@ -14,12 +14,16 @@ export const data = {
             url:'Network',
           },{
             title: 'rn与原生交互',
-            description: 'rn访问原生（https://blog.csdn.net/vv_bug/article/details/78061746），（https://blog.csdn.net/codetomylaw/article/details/51926421）回调方法两种（https://segmentfault.com/a/1190000004508328）',
-            url:'Network',
+            description: 'rn访问原生（https://blog.csdn.net/vv_bug/article/details/78061746），（https://blog.csdn.net/codetomylaw/article/details/51926421）回调方法两种（https://segmentfault.com/a/1190000004508328）,rn监听原生事件（https://blog.csdn.net/qq_25827845/article/details/52963594）',
+            url:'',
           },{
             title: 'Webview',
-            description: 'js,Webview交互（https://www.jianshu.com/p/9e6f1569227f）',
+            description: 'js,Webview交互（https://www.jianshu.com/p/9e6f1569227f），（https://blog.csdn.net/u011272795/article/details/78082744）',
             url:'Webview',
+          },{
+            title: 'Login',
+            description: '',
+            url:'Login',
           },],
     };
 //主题

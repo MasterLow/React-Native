@@ -18,7 +18,9 @@ class StepsA extends Component {
 
   JumpClick = (url) => {
      //Toast.info(JSON.stringify(this.props), 10);
-     if(url)this.props.navigate(url, {key: '传递的参数'});
+     if(url){this.props.navigate(url, {key: '传递的参数'});}else{
+      Toast.info('没有页面', 1, null, false);
+    };
      
    }
    
