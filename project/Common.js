@@ -65,6 +65,11 @@ import { Toast,Icon  } from 'antd-mobile';
     );
   }
 }
+const styles = StyleSheet.create({
+    bgc: {
+        flex:1,
+    },
+});
 const mapStateToProps = state => ({
     counter: state.counter
 })

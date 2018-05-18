@@ -22,7 +22,7 @@ export const data = {
             url:'Webview',
           },{
             title: 'Login',
-            description: '',
+            description: '<LinearGradient />颜色渐变的依赖添加（https://www.npmjs.com/package/react-native-linear-gradient）',
             url:'Login',
           },],
     };
