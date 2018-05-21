@@ -1,8 +1,8 @@
 import { Toast  } from 'antd-mobile';
 import { AsyncStorage } from 'react-native';
-export const static_app__domain = 'http://192.168.1.54:81/'
+export const static_app__domain = 'http://192.168.1.55:81/'
 //exports.static_app__domain = "http://www.qqzi.com/";
-export const qqzifetch = function(options) {
+export const qqzifetch =async function(options) {
   if (!options.type) options.type = 'GET'
   else options.type = options.type.toUpperCase()
 
@@ -54,20 +54,21 @@ export const qqzifetch = function(options) {
           }
         }
       }
-      var thisbody = form
+      var body = form
     } else if (dataStr.length > 0) {
-      var thisbody = dataStr
+      var body = dataStr
     }
   }
   if (fetchOptions.method === 'GET') {
-    fetchOptions.params = thisbody
+    fetchOptions.method = body
   } else {
-    fetchOptions.body = thisbody
+    fetchOptions.body = body
   }
   fetchOptions.headers = {
-    'X-Requested-With': 'XMLHttpRequest'
+    "X-Requested-With": "XMLHttpRequest",
+    "app": "1"
   }
-  fetchOptions.url = setUrlMd5(options.url)
+  fetchOptions.url =await setUrlMd5(options.url);
   if (options.type === 'GET') {
     return fetch(fetchOptions.url, {
       method: fetchOptions.method,
@@ -140,38 +141,26 @@ export const DoUrl = url => {
     return obj
   }
 }
-export const setUrlMd5 = function(url) {
+export const setUrlMd5 =async function(url) {
   var times = new Date().getTime();
-  var user = null;
-  AsyncStorage.getItem('adminUser',(error,result)=>{
-      if (!error) {
-         user = JSON.parse(result);
-      }
-      alert('1');
-  })
-alert('2');return;
+  var user = await AsyncStorage.getItem('adminUser')
   var hasData = url.indexOf('?') > 0
   if (!user) {
     //使用sessionId
-      var nologin_sessionId = null;
-  AsyncStorage.getItem('nologin_sessionId',(error,result)=>{
-    if (!error) {
-       nologin_sessionId = JSON.parse(result);
-    };
-})
+  var nologin_sessionId = await AsyncStorage.getItem('nologin_sessionId');
     // var nologin_sessionId = AsyncStorage.getItem('nologin_sessionId')
-    if (!nologin_sessionId || nologin_sessionId === 'undefined') {
-      //请求nologin_sessionId，用来防止服务器session不可用
-      qqzifetch({
-        url: static_app__domain + '/Home/NewGuid',
-        method: 'GET'
-      }).then(function(e) {
-        var ret = JSON.parse(e.bodyText)
-        nologin_sessionId = ret.Result
-        AsyncStorage.setItem('nologin_sessionId', ret.Result)
-        //apiSelf.alert(apiSelf.modules.nologin_sessionId);
-      })
-    }
+    // if (!nologin_sessionId || nologin_sessionId === 'undefined') {
+    //   //请求nologin_sessionId，用来防止服务器session不可用
+    //   qqzifetch({
+    //     url: static_app__domain + '/Home/NewGuid',
+    //     method: 'GET'
+    //   }).then(function(e) {
+    //     var ret = JSON.parse(e.bodyText)
+    //     nologin_sessionId = ret.Result
+    //     AsyncStorage.setItem('nologin_sessionId', ret.Result)
+    //     //apiSelf.alert(apiSelf.modules.nologin_sessionId);
+    //   })
+    // }
 
     if (nologin_sessionId) {
       if (!hasData) url += '?sessionId=' + nologin_sessionId

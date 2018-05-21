@@ -17,7 +17,6 @@ import { TEXTLICK } from './Component/Actions';
 import { Toast,Icon  } from 'antd-mobile';
 import { md5,qqzifetch }  from './Component/apis';
 import Button from './Component/Button';
-import { AsyncStorage } from 'react-native';
 
  
 //获取屏幕宽度  
@@ -106,7 +105,7 @@ var width = Dimensions.get('window').width;
         //     return;
             var data={
                 username1: this.state.username,
-                Password1: this.state.password,
+                Password1: md5(this.state.password),
                 useToken: 1,
                 PushId: '',   // 推送终端参数
                 location:'',
@@ -119,22 +118,22 @@ var width = Dimensions.get('window').width;
              }
              qqzifetch(options)
              .then( res=>{
-                Toast.info(JSON.stringify(res), 2, null, false);
+                alert(JSON.stringify(res));
                  //请求成功
                  //if(res.header.statusCode == 'success'){
                      //这里设定服务器返回的header中statusCode为success时数据返回成功
-                     if(res.Result){
-                         this.setState({
-                             data: res.Result
-                           });
-                     }
+                     //if(res.Result){
+                        //  this.setState({
+                        //      data: res.Result
+                        //    });
+                     //}
                  //}else{
                      //服务器返回异常，设定服务器返回的异常信息保存在 header.msgArray[0].desc
                  //    console.log(res.header.msgArray[0].desc);
                      
                  //}
              }).catch( err=>{ 
-                Toast.info(JSON.stringify(err), 2, null, false);
+                alert('err'+err);
                  
              });
         };
