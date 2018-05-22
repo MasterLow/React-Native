@@ -1,7 +1,14 @@
 import { Toast  } from 'antd-mobile';
-import { AsyncStorage } from 'react-native';
+import { Dimensions,StatusBar } from 'react-native';
+import Storage from './Storage';
 export const static_app__domain = 'http://192.168.1.55:81/'
 //exports.static_app__domain = "http://www.qqzi.com/";
+export const BasicWH = {
+     Width: Dimensions.get('window').width,
+     Height: Dimensions.get('window').height,
+     BarHeight: StatusBar.currentHeight,
+     NoBarHeight: Dimensions.get('window').height-StatusBar.currentHeight,
+};
 export const qqzifetch =async function(options) {
   if (!options.type) options.type = 'GET'
   else options.type = options.type.toUpperCase()
@@ -77,7 +84,7 @@ export const qqzifetch =async function(options) {
       .then(response => response.json())
       .then(response => {
         if (response.Message) {
-          Toast.info(JSON.stringify(response.Message), 10, null, false);
+         // Toast.info(JSON.stringify(response.Message), 10, null, false);
         }
         return response
       })
@@ -94,7 +101,7 @@ export const qqzifetch =async function(options) {
       .then(response => {
         if (response) {
           if (response.Message) {
-            Toast.info(JSON.stringify(response.Message), 10, null, false);
+          //  Toast.info(JSON.stringify(response.Message), 10, null, false);
           }
           return response
         }
@@ -143,11 +150,11 @@ export const DoUrl = url => {
 }
 export const setUrlMd5 =async function(url) {
   var times = new Date().getTime();
-  var user = await AsyncStorage.getItem('adminUser')
+  var user = await Storage.get('adminUser')
   var hasData = url.indexOf('?') > 0
   if (!user) {
     //使用sessionId
-  var nologin_sessionId = await AsyncStorage.getItem('nologin_sessionId');
+  var nologin_sessionId = await Storage.get('nologin_sessionId');
     // var nologin_sessionId = AsyncStorage.getItem('nologin_sessionId')
     // if (!nologin_sessionId || nologin_sessionId === 'undefined') {
     //   //请求nologin_sessionId，用来防止服务器session不可用

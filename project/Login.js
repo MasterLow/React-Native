@@ -8,32 +8,33 @@ import {
     NativeModules,
     Image,
     TextInput,
-    Dimensions,
 
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
-import { TEXTLICK } from './Component/Actions';
+import { TEXTLICK,ISLOGINLICK } from './Component/Actions';
 import { Toast,Icon  } from 'antd-mobile';
-import { md5,qqzifetch }  from './Component/apis';
+import { BasicWH,md5,qqzifetch }  from './Component/apis';
+import Storage from './Component/Storage';
 import Button from './Component/Button';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
- 
-//获取屏幕宽度  
-var width = Dimensions.get('window').width;  
  class Login extends Component {     
     constructor(props){
       super(props)
       this.state = {
-        imgurl:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2635305891,1187858716&fm=27&gp=0.jpg',
+        HeadPicture:'',
         clickReturn:true,
         username:'',
         password:'',
+        code:'',
+        loginCode:'',
 
       }
       }	 
          //设置顶部导航栏的内容
     static navigationOptions = ({navigation, screenProps}) => ({
+            header:null,
             headerTitle:'Login',
             //headerBackTitle:null,//返回箭头后面的文字
             headerTintColor:screenProps.color,   
@@ -48,12 +49,17 @@ var width = Dimensions.get('window').width;
                 backgroundColor:null,
             },
     });
-    componentDidMount() {
+    async componentDidMount() {
         
-        this.props.navigation.setParams({
-            // LeftPress:this.LeftPress,
-            RightPress:this.RightPress
-        })
+        // this.props.navigation.setParams({
+        //     // LeftPress:this.LeftPress,
+        //     RightPress:this.RightPress
+        // })
+     
+        let user =await Storage.get('username1'); 
+        alert(JSON.stringify(user));
+        if(user) this.setState({ username:user.username1,HeadPicture:user.HeadPicture }, () => { });
+        
     }
     
     componentWillUnmount() {
@@ -63,23 +69,17 @@ var width = Dimensions.get('window').width;
     //     Toast.info('左上角', 2, null, false);
     //     this.props.navigation.goBack();
     // }
-    RightPress = () => {
-        Toast.info('右上角', 2, null, false);
-        console.log(this.props.navigation);
-    }
-    TextClick = () => {
-        this.props.dispatch(TEXTLICK());
+    // RightPress = () => {
+    //     Toast.info('右上角', 2, null, false);
+    //     console.log(this.props.navigation);
+    // }
+    rightClick = () => {
+        this.props.navigation.goBack();//返回
     }
     Login(){
         if(this.state.clickReturn){
             
         }else{
-            
-        var object = {
-            name:'xmg',
-            age:18
-        };
-
         // JSON.stringify(object): JSON对象转换为字符串 用来存储
         // AsyncStorage.setItem('object',JSON.stringify(object),(error)=>{
         //     if (error) {
@@ -117,8 +117,15 @@ var width = Dimensions.get('window').width;
                  data:data,
              }
              qqzifetch(options)
-             .then( res=>{
-                alert(JSON.stringify(res));
+             .then ( res=>{
+                if(res.Result){   
+                    Storage.save('username1',{username1: this.state.username,HeadPicture:res.Result.HeadPicture});
+                    this.props.dispatch(ISLOGINLICK(res.Result));
+                }else{
+                    if(res.Tip){
+                        this.setState({ loginCode:true })
+                         }
+                }
                  //请求成功
                  //if(res.header.statusCode == 'success'){
                      //这里设定服务器返回的header中statusCode为success时数据返回成功
@@ -152,25 +159,36 @@ var width = Dimensions.get('window').width;
             this.ifClick();
           });
     }
+    onChangeCode = (value) => {
+        this.setState({
+            code:value
+          }, () => {
+            this.ifClick();
+          });
+    }
     ifClick(){
         if(this.state.username!==''&&this.state.password!==''){this.setState({clickReturn:false});}else{this.setState({clickReturn:true});}
     }
   render() {
     return (
-        <LinearGradient start={{x: 0, y: 1 }} end={{x: 1, y: 1 }} colors={['#B06AB3', '#4568DC']} style={{flex:1,marginTop:-56,}}>
+        <KeyboardAwareScrollView>
+        <LinearGradient start={{x: 0, y: 1 }} end={{x: 1, y: 1 }} colors={['#B06AB3', '#4568DC']} style={{width:BasicWH.Width,height:BasicWH.NoBarHeight}}>
         <View style={styles.bgc}>
-            <View style={styles.title}></View>
-        </View >
+            <TouchableOpacity onPress={() =>{this.props.navigation.goBack()} }><View style={styles.title}><Icon type="&#xe632;" color={'#fff'} size='lg'/></View></TouchableOpacity>
+            <TouchableOpacity onPress={this.TextClick}><View style={styles.title}><Text  style={styles.titletext} >LOGIN</Text></View></TouchableOpacity>
+            <TouchableOpacity onPress={this.rightClick}><View style={styles.title}><Icon type="&#xe67d;" color={'#fff'} size='md'/></View></TouchableOpacity>
+        </View>
         <View style={styles.content}>
             <View style={styles.headerimg}>
                 <Image 
                 // source={require('./img/icon.jpg')}
-                source={!this.state.imgurl ? require('./images/headImg.jpg') : {uri:this.state.imgurl}}
+                source={!this.state.HeadPicture ? require('./images/headImg.jpg') : {uri:this.state.HeadPicture}}
                 style={styles.img}
                 ></Image>  
             </View>
-            <View style={styles.userName}>
-                <Text style={styles.Name}>账号：</Text>
+            <View style={styles.margin}>
+            <View style={styles.user}>
+                <Text style={styles.Name}>账    号：</Text>
                 <TextInput style={styles.Nameinput}
                 underlineColorAndroid='transparent'//去下划线
                 placeholder="输入用户名"
@@ -178,10 +196,11 @@ var width = Dimensions.get('window').width;
                 maxLength={16}
                 clearButtonMode = {'always'}
                 onChangeText={this.onChangeName}
+                value={ this.state.username }
                 />
             </View>
-            <View style={styles.userPass}>
-                <Text style={styles.Name}>密码：</Text>
+            <View style={styles.user}>
+                <Text style={styles.Name}>密    码：</Text>
                 <TextInput style={styles.Nameinput}
                 multiline = {false}
                 secureTextEntry = {true}
@@ -193,9 +212,30 @@ var width = Dimensions.get('window').width;
                 onChangeText={this.onChangePass}
                 />
             </View>
+            <View style={styles.user}>
+                <Text style={styles.Name}>验证码：</Text>
+                <TextInput style={styles.codeinput}
+                multiline = {false}
+                secureTextEntry = {true}
+                underlineColorAndroid='transparent'//去下划线
+                placeholder="请输入验证码"
+                placeholderTextColor={'#BFBFBF'}
+                maxLength={6}
+                clearButtonMode = {'always'}
+                onChangeText={this.onChangeCode}
+                />
+                <View style={styles.viewimg}>
+                <Image 
+                // source={require('./img/icon.jpg')}
+                source={!this.state.HeadPicture ? require('./images/headImg.jpg') : {uri:this.state.HeadPicture}}
+                style={styles.codeimg}
+                ></Image> 
+                </View>
+            </View>
+            </View>
             <View style={{marginTop:30}}>
              <Button 
-                    title="登 入"
+                    title={ this.props.counter.islogin ? "已登入":"登 入"}
                     clickReturn={this.state.clickReturn}
                     // button={styles.button}
                     // buttontext={styles.buttontext}
@@ -208,27 +248,39 @@ var width = Dimensions.get('window').width;
              </View>
         </View>
         </LinearGradient>
+        </KeyboardAwareScrollView>
     );
   }
 }
 const styles = StyleSheet.create({
     bgc: {
-        flex:1,
-    },
-    title:{
+        display:'flex',
+        flexDirection:'row',
         width:'100%',
-        height:56,
         borderBottomWidth:1,
         borderColor:'#fff',
         borderStyle:'solid',
+        alignItems:'center',
+        justifyContent:'space-between',
+        height:56,
+        padding:10,
+    },
+    title:{
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    titletext:{
+        fontSize:18,
+        color:'#fff',
+
     },
     content:{
-        width:'100%',
-        height:'100%',
+        width:BasicWH.Width,
+        height:BasicWH.NoBarHeight-56,
         alignItems:'center',
     },
     headerimg:{
-        marginTop:56+50,
+        marginTop:30,
         width:106,
         height:106,
         borderWidth:3,
@@ -241,10 +293,23 @@ const styles = StyleSheet.create({
         width:100,
         height:100,
         borderRadius:100,
-        resizeMode:'cover'
+        resizeMode:'cover',
     },
-    userName:{
-        marginTop:20,
+    viewimg:{
+        width:BasicWH.Width-260,
+        height:50,
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    codeimg:{
+        width:BasicWH.Width-280,
+        height:40,
+    },
+    margin:{
+        marginTop:30,
+    },
+    user:{
         display:'flex',
         flexDirection:'row',
         borderBottomWidth:1,
@@ -253,36 +318,37 @@ const styles = StyleSheet.create({
         //elevation: 10,
     },
     Name:{
-        width:width-260,
+        width:BasicWH.Width-260,
         lineHeight:50,
         textAlign:'center',
         fontSize:16,
         color:'#fff',
     },
     Nameinput:{
-        width:width-160,
+        width:BasicWH.Width-160,
         height:50,
         textAlign:'left',
         color:'#fff',
         fontSize:16,
+        padding:0
     },
-    userPass:{
-        display:'flex',
-        flexDirection:'row',
-        borderBottomWidth:1,
-        borderColor:'#fff',
-        borderStyle:'solid',
-        //elevation: 10,
+    codeinput:{
+        width:BasicWH.Width-260,
+        height:50,
+        textAlign:'left',
+        color:'#fff',
+        fontSize:16,
+        padding:0
     },
     buttontext:{
-        width:width-60,
+        width:BasicWH.Width-60,
         lineHeight:40,
         textAlign:'center',
         color:'#fff',
         fontSize:16,
     },
     foget:{
-        width:width-60,
+        width:BasicWH.Width-60,
         lineHeight:40,
         textAlign:'center',
         color:'#fff',

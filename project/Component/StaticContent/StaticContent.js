@@ -22,7 +22,7 @@ export const data = {
             url:'Webview',
           },{
             title: 'Login',
-            description: '<LinearGradient />颜色渐变的依赖添加（https://www.npmjs.com/package/react-native-linear-gradient）',
+            description: '<LinearGradient />颜色渐变的依赖添加（https://www.npmjs.com/package/react-native-linear-gradient），react native AsyncStorage 使用实例 异步存储数据以及读取（https://blog.csdn.net/qq_16086969/article/details/53897501）',
             url:'Login',
           },],
     };
